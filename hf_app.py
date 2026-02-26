@@ -5,7 +5,7 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
-from src.api.app import app as api_app, model_service
+from src.api.app import app as api_app, setup_app_services
 
 # ─── Configuration ────────────────────────────────────────────────────────
 logging.basicConfig(level=logging.INFO)
@@ -20,12 +20,13 @@ async def lifespan(app: FastAPI):
     logger.info("  ClearAudit Unified Server — Starting")
     logger.info("=" * 60)
     
-    # Explicitly load models because mounted sub-app lifespans aren't triggered
+    # Explicitly load models and initialize services (SHAP, Drift, etc.)
+    # Mounted sub-app lifespans are not triggered in FastAPI automatically.
     try:
-        model_service.load_models()
-        logger.info("Models loaded successfully in Unified Server")
+        setup_app_services()
+        logger.info("Backend services initialized in Unified Server")
     except Exception as e:
-        logger.error("CRITICAL: Failed to load models: %s", e)
+        logger.error("CRITICAL: Failed to initialize backend: %s", e)
 
     yield
     logger.info("Unified Server Shutting Down.")

@@ -45,24 +45,31 @@ shap_explainer: ShapExplainer = None  # initialized after model load
 drift_monitor = DriftMonitor()
 
 
+def setup_app_services():
+    """Manually initialize all global services (used by unified servers)."""
+    global shap_explainer
+    
+    if not model_service.is_loaded:
+        model_service.load_models()
+    
+    if shap_explainer is None:
+        shap_explainer = ShapExplainer(model_service.xgb_model, model_service.feature_names)
+    
+    logger.info("Global services initialized. Redis: %s", 
+                "connected" if store.is_redis_connected else "in-memory fallback")
+
 # ─── Lifespan ────────────────────────────────────────────────────────────
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Load models at startup, cleanup at shutdown."""
-    global shap_explainer
-
     logger.info("=" * 60)
     logger.info("  VIETNAM FRAUD DETECTOR — API Starting")
     logger.info("=" * 60)
 
-    model_service.load_models()
-    shap_explainer = ShapExplainer(model_service.xgb_model, model_service.feature_names)
+    setup_app_services()
 
-    logger.info("API ready. Redis: %s", "connected" if store.is_redis_connected else "in-memory fallback")
     logger.info("=" * 60)
-
-    yield  # App is running
-
+    yield
     logger.info("API shutting down.")
 
 
