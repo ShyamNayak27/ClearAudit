@@ -1,3 +1,13 @@
+---
+title: ClearAudit
+emoji: 🦅
+colorFrom: blue
+colorTo: cyan
+sdk: docker
+pinned: false
+app_port: 7860
+---
+
 # ClearAudit VN: Real-Time ML Fraud Detection Ecosystem
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
