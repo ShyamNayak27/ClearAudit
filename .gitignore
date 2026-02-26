@@ -1,20 +1,95 @@
-# Environments
-venv/
+# =========================
+# 🔒 Environment & Secrets
+# =========================
 .env
+.env.*
+*.env
+venv/
+.venv/
+env/
+ENV/
 
-# Data
+# =========================
+# 🐍 Python
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# =========================
+# 📦 Package Managers
+# =========================
+pip-log.txt
+pip-delete-this-directory.txt
+
+# =========================
+# 📓 Jupyter
+# =========================
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# =========================
+# 📊 Data Files (DO NOT PUSH DATASETS)
+# =========================
 data/
 *.csv
 *.parquet
-
-# Models
-*.pkl
+*.feather
 *.h5
+*.sqlite
+*.db
+
+# =========================
+# 🤖 ML Models (DO NOT PUSH TRAINED MODELS)
+# =========================
+*.pkl
 *.joblib
+*.h5
+*.pt
+*.pth
+*.ckpt
+*.onnx
+models/
 src/models/saved_models/
 
-# Python
-__pycache__/
-*.py
-*$py.class
-.ipynb_checkpoints/
+# =========================
+# 📈 Logs & Reports
+# =========================
+logs/
+*.log
+reports/
+*.out
+
+# =========================
+# 🧪 Testing
+# =========================
+.coverage
+htmlcov/
+.pytest_cache/
+
+# =========================
+# 🖥 IDE & Editor Files
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# 🧱 OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# 🐳 Docker (optional)
+# =========================
+*.tar
