@@ -1,0 +1,120 @@
+{
+  "champion": "XGBoost",
+  "ensemble_threshold": 0.52,
+  "models": {
+    "xgboost": {
+      "precision": 0.8799,
+      "recall": 0.9389,
+      "f1": 0.9084,
+      "pr_auc": 0.9699,
+      "typology": {
+        "fake_shipper": {
+          "count": 8509,
+          "detected": 8502,
+          "recall": 0.9992,
+          "pr_auc": 0.3309
+        },
+        "quishing": {
+          "count": 5152,
+          "detected": 5139,
+          "recall": 0.9975,
+          "pr_auc": 0.292
+        },
+        "biometric_evasion": {
+          "count": 7035,
+          "detected": 7012,
+          "recall": 0.9967,
+          "pr_auc": 0.3028
+        }
+      }
+    },
+    "random_forest": {
+      "precision": 0.8299,
+      "recall": 0.895,
+      "f1": 0.8612,
+      "pr_auc": 0.9415,
+      "typology": {
+        "fake_shipper": {
+          "count": 8509,
+          "detected": 8484,
+          "recall": 0.9971,
+          "pr_auc": 0.431
+        },
+        "quishing": {
+          "count": 5152,
+          "detected": 4315,
+          "recall": 0.8375,
+          "pr_auc": 0.117
+        },
+        "biometric_evasion": {
+          "count": 7035,
+          "detected": 7032,
+          "recall": 0.9996,
+          "pr_auc": 0.4456
+        }
+      }
+    },
+    "autoencoder": {
+      "precision": 0.4192,
+      "recall": 0.106,
+      "f1": 0.1692,
+      "pr_auc": 0.3645,
+      "typology": {
+        "fake_shipper": {
+          "count": 8509,
+          "detected": 673,
+          "recall": 0.0791,
+          "pr_auc": 0.0891
+        },
+        "quishing": {
+          "count": 5152,
+          "detected": 477,
+          "recall": 0.0926,
+          "pr_auc": 0.0678
+        },
+        "biometric_evasion": {
+          "count": 7035,
+          "detected": 1182,
+          "recall": 0.168,
+          "pr_auc": 0.149
+        }
+      },
+      "anomaly_threshold": 0.06791571578399741
+    },
+    "ensemble": {
+      "precision": 0.9036,
+      "recall": 0.918,
+      "f1": 0.9107,
+      "pr_auc": 0.9654,
+      "typology": {
+        "fake_shipper": {
+          "count": 8509,
+          "detected": 8478,
+          "recall": 0.9964,
+          "pr_auc": 0.2989
+        },
+        "quishing": {
+          "count": 5152,
+          "detected": 5134,
+          "recall": 0.9965,
+          "pr_auc": 0.2456
+        },
+        "biometric_evasion": {
+          "count": 7035,
+          "detected": 6963,
+          "recall": 0.9898,
+          "pr_auc": 0.3539
+        }
+      },
+      "weights": {
+        "xgboost": 0.8,
+        "autoencoder": 0.2
+      }
+    }
+  },
+  "test_set": {
+    "total": 110000,
+    "fraud": 28447,
+    "fraud_ratio": 0.2586
+  }
+}

@@ -48,16 +48,15 @@ data/
 *.db
 
 # =========================
-# 🤖 ML Models (DO NOT PUSH TRAINED MODELS)
+# 🤖 ML Models (Include Inference Assets)
 # =========================
-*.pkl
-*.joblib
-*.h5
+# We include .json, .joblib, and .keras for production serving.
+# Heavy binary raw weights (like .pt or .pth) are still ignored.
 *.pt
 *.pth
 *.ckpt
 *.onnx
-models/
+# models/ is now tracked
 src/models/saved_models/
 
 # =========================
