@@ -1,13 +1,3 @@
----
-title: ClearAudit VN
-emoji: 🛡️
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-pinned: false
-app_port: 7860
----
-
 # ClearAudit VN: Real-Time ML Fraud Detection Ecosystem
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -98,8 +88,10 @@ python project_hub.py
 ---
 
 ## 📑 Documentation
+
 For a deep dive into the engineering rationale and experimental results:
--   [Technical Whitepaper (HTML)](frontend/technical_page/Documentation.html)
+-   **[Live Demo (Hugging Face)](https://huggingface.co/spaces/KazeSensei/ClearAudit)**: Interact with the production system.
+-   **[Technical Whitepaper (PDF)](frontend/technical_page/Documentation.pdf)**: Detailed methodology and benchmarks.
 -   [Phase 1-3 Complete Deep-Dive (Markdown)](docs/complete_technical_deep_dive.md)
 -   [SMOTE vs No-SMOTE Experiment Report](docs/smote_experiment_report.md)
 
