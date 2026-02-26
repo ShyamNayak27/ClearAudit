@@ -108,7 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
             resScore.textContent = '-';
             resXgb.textContent = '-';
             resAe.textContent = '-';
-            shapList.innerHTML = '<div class="shap-item"><div class="shap-val" style="color:#e5141f;">Failed to reach backend API.</div></div>';
+            const statusMsg = e.message || 'Unknown Error';
+            shapList.innerHTML = `<div class="shap-item"><div class="shap-val" style="color:#e5141f;">API Error: ${statusMsg}</div></div>`;
         }
 
         resultCard.style.opacity = '1';

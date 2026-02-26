@@ -205,7 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (!res.ok) {
-                    throw new Error(`API returned status: ${res.status}`);
+                    const errText = await res.text();
+                    throw new Error(`API Error ${res.status}: ${errText.slice(0, 50)}`);
                 }
 
                 const data = await res.json();
@@ -276,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             } catch (err) {
                 console.error("Scoring failed:", err);
-                alert("Failed to connect to API. Please check server status.");
+                alert(`Failed to connect to API: ${err.message}`);
             } finally {
                 btnScore.innerText = 'EVALUATE TRANSACTION (LIVE API)';
                 btnScore.disabled = false;
