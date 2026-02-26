@@ -1,0 +1,338 @@
+/* 
+  Vietnam Fraud Detector - Idea 4 Simulation Dashboard Styles
+*/
+
+body {
+    background-color: var(--hero-bg);
+    /* Dark outer background */
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* TOP NAV */
+.sim-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    height: 70px;
+    background: var(--hero-bg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+}
+
+.sim-nav-brand {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    letter-spacing: -1px;
+}
+
+.sim-nav-brand span {
+    color: var(--safe-teal);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    margin-left: 10px;
+    text-transform: uppercase;
+}
+
+.sim-nav-back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    transition: color 0.2s;
+}
+
+.sim-nav-back:hover {
+    color: var(--safe-teal);
+}
+
+/* LAYOUT */
+.sim-layout {
+    display: flex;
+    height: calc(100vh - 70px);
+}
+
+/* SIDEBAR */
+.sim-sidebar {
+    width: 260px;
+    background: var(--hero-bg);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sim-tab {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.sim-tab svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+}
+
+.sim-tab:hover {
+    color: var(--text-light);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.sim-tab.active {
+    color: var(--text-light);
+    background: var(--safe-teal);
+}
+
+/* MAIN CONTENT */
+.sim-main {
+    flex-grow: 1;
+    background: var(--bg-pill);
+    /* Very light grey/blue */
+    padding: 3rem 4rem;
+    overflow-y: auto;
+}
+
+.sim-panel {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.sim-panel.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.panel-header {
+    margin-bottom: 3rem;
+}
+
+.panel-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.panel-desc {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+}
+
+/* CARDS */
+.dash-card {
+    background: var(--content-bg);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    margin-bottom: 2rem;
+}
+
+.card-title {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 0.5rem;
+}
+
+/* GRIDS */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+/* FORMS */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--metric-navy);
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 14px;
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--text-primary);
+}
+
+.btn-block {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+/* RESULT PANEL METRICS */
+.dash-metric {
+    text-align: center;
+    padding: 1rem;
+    background: var(--bg-pill);
+    border-radius: 8px;
+}
+
+.dash-metric-val {
+    font-family: var(--font-mono);
+    font-size: 2.5rem;
+    color: var(--metric-navy);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.dash-metric-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+/* BADGES */
+.badge {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+.badge-red {
+    background: var(--threat-red);
+}
+
+.badge-teal {
+    background: var(--safe-teal);
+}
+
+.badge-grey {
+    background: var(--text-secondary);
+}
+
+/* DIAGNOSTICS */
+.diag-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.diag-item {
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.diag-val {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    color: var(--metric-navy);
+}
+
+.diag-lbl {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+}
+
+/* SHAP LIST */
+.shap-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.shap-row {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+}
+
+.shap-lbl {
+    width: 250px;
+    color: var(--text-primary);
+}
+
+.shap-bar-container {
+    flex-grow: 1;
+    height: 16px;
+    background: var(--bg-pill);
+    position: relative;
+    border-radius: 2px;
+}
+
+.shap-bar {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    border-radius: 2px;
+}
+
+.shap-amt {
+    width: 70px;
+    text-align: right;
+    color: var(--text-secondary);
+}
+
+/* CHARTS */
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClearAudit — ML Engineering Portfolio</title>
+  <meta name="description"
+    content="ClearAudit: End-to-end ML fraud detection system for Vietnam. SimPay VN synthetic data, CTGAN/WGAN-GP augmentation, DuckDB feature engine, XGBoost + Autoencoder ensemble, FastAPI production API with SHAP explanations.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+
+  <!-- ============================================================
+       HERO — PIPELINE SCROLLYTELLING
+       ============================================================ -->
+  <section id="hero">
+    <div class="hero-sticky">
+      <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+      <canvas id="pipeline-canvas" aria-hidden="true"></canvas>
+
+      <div class="hero-overlay">
+        <h1 class="hero-title">Clear Audit</h1>
+        <p class="hero-subtitle">XGBoost + Autoencoder dual-branch fraud detection on 550k synthetic Vietnamese
+          transactions</p>
+      </div>
+
+      <div class="phase-label">STAGE 01 / PIPELINE INIT</div>
+
+      <div class="scroll-cue">
+        <div class="scroll-cue-line"></div>
+        <span class="scroll-cue-text">Scroll</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-transition"></div>
+
+  <!-- ============================================================
+       S1 — HEADLINE STATEMENT
+       ============================================================ -->
+  <section id="headline">
+    <div class="headline-inner">
+      <p class="eyebrow reveal">ML Engineering / End to End</p>
+      <h2 class="heading-xl headline-title reveal reveal-d1">CLEARAUDIT</h2>
+      <p class="headline-subtitle reveal reveal-d2">
+        A dual-branch fraud detection system: XGBoost supervised classifier and reconstruction-error Autoencoder,
+        trained on 550k CTGAN/WGAN-GP synthetic Vietnamese transactions, achieving <strong>99.7% recall</strong>
+        across four key typologies in <strong>under 150ms</strong>.
+      </p>
+      <div class="headline-actions reveal reveal-d3">
+        <a href="https://github.com/ShyamNayak27" class="btn btn-dark" id="btn-github">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+          </svg>
+          View on GitHub
+        </a>
+        <a href="Documentation.pdf" target="_blank" class="btn btn-outline" id="btn-docs">Read Technical Docs</a>
+        <a href="simulation.html" class="btn btn-teal" id="btn-sim">Run Live Simulation</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-transition"></div>
+
+  <!-- ============================================================
+       S2 — PIPELINE ARCHITECTURE (static)
+       ============================================================ -->
+  <section id="architecture">
+    <div class="arch-inner">
+      <p class="eyebrow reveal" style="text-align:center;">System Architecture</p>
+      <div class="arch-diagram reveal reveal-d1">
+        <canvas id="arch-canvas" aria-hidden="true"></canvas>
+      </div>
+      <p class="arch-caption footnote reveal reveal-d2">
+        Full pipeline: synthetic data generation, feature engineering, dual-branch ML scoring, production API, and
+        explainability layer.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       S3 — KEY METRICS
+       ============================================================ -->
+  <section id="metrics">
+    <div class="metrics-inner">
+      <div class="metrics-header">
+        <p class="eyebrow reveal">Results</p>
+        <h2 class="heading-lg reveal reveal-d1">System Performance</h2>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-cell reveal">
+          <div class="metric-number" data-count="91.1" data-suffix="%" data-decimals="1">0%</div>
+          <div class="metric-label">F1-Score</div>
+          <p class="metric-detail">Ensemble (XGBoost + AE) on held-out test set (20% split, stratified)</p>
+        </div>
+
+        <div class="metric-cell reveal reveal-d1">
+          <div class="metric-number" data-count="99.7" data-suffix="%" data-decimals="1">0%</div>
+          <div class="metric-label">Recall</div>
+          <p class="metric-detail">Fraud class recall. Optimized to capture zero-day attacks.</p>
+        </div>
+
+        <div class="metric-cell reveal reveal-d2">
+          <div class="metric-number" data-count="12" data-suffix="ms">0ms</div>
+          <div class="metric-label">P95 Latency</div>
+          <p class="metric-detail">FastAPI + Redis feature cache. Single transaction scoring endpoint.</p>
+        </div>
+
+        <div class="metric-cell reveal reveal-d3">
+          <div class="metric-number" data-count="550" data-suffix="k">0k</div>
+          <div class="metric-label">Training Samples</div>
+          <p class="metric-detail">500k CTGAN + 50k WGAN-GP synthetic Vietnamese transactions via SimPay VN.</p>
+        </div>
+
+        <div class="metric-cell reveal">
+          <div class="metric-number" data-count="32" data-suffix="">0</div>
+          <div class="metric-label">Features</div>
+          <p class="metric-detail">DuckDB velocity engine. Per-account, per-device, per-merchant aggregations.</p>
+        </div>
+
+        <div class="metric-cell reveal reveal-d1">
+          <div class="metric-number" data-count="0.8" data-suffix="%" data-decimals="1">0%</div>
+          <div class="metric-label">False Positive Rate</div>
+          <p class="metric-detail">Maintains high precision (90.3%) to minimize analyst alert fatigue.</p>
+        </div>
+
+        <div class="metric-cell reveal reveal-d2">
+          <div class="metric-number" data-count="4" data-suffix="">0</div>
+          <div class="metric-label">Fraud Typologies</div>
+          <p class="metric-detail">Fake Shipper COD, Quishing, Biometric Bypass, and Account Takeover.</p>
+        </div>
+
+        <div class="metric-cell reveal reveal-d3">
+          <div class="metric-number" data-count="2" data-suffix="">0</div>
+          <div class="metric-label">Model Branches</div>
+          <p class="metric-detail">The Champion Ensemble: XGBoost (80%) + Autoencoder (20%).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       S4 — TECHNICAL DECISIONS (Visual Chose/Rejected Cards)
+       ============================================================ -->
+  <section id="decisions">
+    <div class="decisions-inner">
+      <div class="decisions-header">
+        <p class="eyebrow reveal">Engineering Decisions</p>
+        <h2 class="heading-lg reveal reveal-d1">Trade-offs and Rationale</h2>
+      </div>
+
+      <div class="decision-cards">
+
+        <!-- Decision 01 -->
+        <div class="decision-card reveal">
+          <div class="decision-top">
+            <div class="decision-icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <line x1="9" y1="3" x2="9" y2="21" />
+              </svg>
+            </div>
+            <span class="decision-num">Decision 01</span>
+            <span class="decision-tag">Data Engineering</span>
+          </div>
+          <h3 class="decision-title">Synthetic Data over Real PII</h3>
+          <div class="decision-comparison">
+            <div class="decision-chose">
+              <span class="comparison-label chose">Chose</span>
+              <span class="comparison-value">SimPay VN (CTGAN 500k + WGAN-GP 50k)</span>
+            </div>
+            <div class="decision-rejected">
+              <span class="comparison-label rejected">Rejected</span>
+              <span class="comparison-value">Real Vietnamese banking PII</span>
+            </div>
+          </div>
+          <p class="decision-reason">No access to real data. SimPay VN generates <strong>statistically faithful</strong>
+            synthetic transactions with Vietnamese merchant names, bank codes, and seasonal patterns (Tet, Mid-Autumn).
+          </p>
+        </div>
+
+        <!-- Decision 02 -->
+        <div class="decision-card reveal reveal-d1">
+          <div class="decision-top">
+            <div class="decision-icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+              </svg>
+            </div>
+            <span class="decision-num">Decision 02</span>
+            <span class="decision-tag">Machine Learning</span>
+          </div>
+          <h3 class="decision-title">XGBoost + Autoencoder Ensemble</h3>
+          <div class="decision-comparison">
+            <div class="decision-chose">
+              <span class="comparison-label chose">Chose</span>
+              <span class="comparison-value">Dual-branch: XGBoost + Autoencoder</span>
+            </div>
+            <div class="decision-rejected">
+              <span class="comparison-label rejected">Rejected</span>
+              <span class="comparison-value">Single-model approach</span>
+            </div>
+          </div>
+          <p class="decision-reason">XGBoost handles <strong>known fraud signatures</strong> via supervised learning.
+            Autoencoder catches <strong>zero-day anomalies</strong> via reconstruction error. Ensemble merges both with
+            learned weighting.</p>
+        </div>
+
+        <!-- Decision 03 -->
+        <div class="decision-card reveal reveal-d2">
+          <div class="decision-top">
+            <div class="decision-icon">
+              <svg viewBox="0 0 24 24">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+            </div>
+            <span class="decision-num">Decision 03</span>
+            <span class="decision-tag">Feature Engineering</span>
+          </div>
+          <h3 class="decision-title">DuckDB over Spark for Features</h3>
+          <div class="decision-comparison">
+            <div class="decision-chose">
+              <span class="comparison-label chose">Chose</span>
+              <span class="comparison-value">DuckDB (columnar, in-memory)</span>
+            </div>
+            <div class="decision-rejected">
+              <span class="comparison-label rejected">Rejected</span>
+              <span class="comparison-value">Apache Spark (cluster overhead)</span>
+            </div>
+          </div>
+          <p class="decision-reason">550k records fit in memory. DuckDB computes <strong>200+ velocity features</strong>
+            (per-account, per-device rolling windows) in under 3 seconds. Spark adds cluster overhead with no throughput
+            benefit at this scale.</p>
+        </div>
+
+        <!-- Decision 04 -->
+        <div class="decision-card reveal reveal-d3">
+          <div class="decision-top">
+            <div class="decision-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </div>
+            <span class="decision-num">Decision 04</span>
+            <span class="decision-tag">Explainability</span>
+          </div>
+          <h3 class="decision-title">SHAP over LIME for Explanations</h3>
+          <div class="decision-comparison">
+            <div class="decision-chose">
+              <span class="comparison-label chose">Chose</span>
+              <span class="comparison-value">SHAP (Shapley values, theoretically grounded)</span>
+            </div>
+            <div class="decision-rejected">
+              <span class="comparison-label rejected">Rejected</span>
+              <span class="comparison-value">LIME (local perturbation, less stable)</span>
+            </div>
+          </div>
+          <p class="decision-reason">Banking regulators require explainable AI. SHAP provides <strong>consistent feature
+              attribution</strong> across similar inputs, specifically satisfying <strong>SBV (State Bank of
+              Vietnam)</strong>
+            requirements for algorithmic transparency.</p>
+        </div>
+
+        <!-- Decision 05 -->
+        <div class="decision-card reveal reveal-d4">
+          <div class="decision-top">
+            <div class="decision-icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+            </div>
+            <span class="decision-num">Decision 05</span>
+            <span class="decision-tag">Production API</span>
+          </div>
+          <h3 class="decision-title">FastAPI + Redis Architecture</h3>
+          <div class="decision-comparison">
+            <div class="decision-chose">
+              <span class="comparison-label chose">Chose</span>
+              <span class="comparison-value">FastAPI async + Redis feature cache</span>
+            </div>
+            <div class="decision-rejected">
+              <span class="comparison-label rejected">Rejected</span>
+              <span class="comparison-value">Flask sync (no caching layer)</span>
+            </div>
+          </div>
+          <p class="decision-reason">Redis caching reduces p95 latency from <strong>85ms (cold) to 12ms (warm)</strong>.
+            Stateless API design enables horizontal scaling behind a load balancer.</p>
+        </div>
+
+        <!-- Decision 06 -->
+        <div class="decision-card reveal reveal-d4">
+          <div class="decision-top">
+            <div class="decision-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+            </div>
+            <span class="decision-num">Decision 06</span>
+            <span class="decision-tag">Experimentation</span>
+          </div>
+          <h3 class="decision-title">SMOTE Rejected for Oversampling</h3>
+          <div class="decision-comparison">
+            <div class="decision-chose">
+              <span class="comparison-label chose">Chose</span>
+              <span class="comparison-value">CTGAN (preserves joint distribution)</span>
+            </div>
+            <div class="decision-rejected">
+              <span class="comparison-label rejected">Rejected</span>
+              <span class="comparison-value">SMOTE (degraded precision by 4.2%)</span>
+            </div>
+          </div>
+          <p class="decision-reason">SMOTE minority samples <strong>bled into the majority class boundary</strong>.
+            CTGAN preserves distribution structure and generates more realistic fraud patterns.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       S5 — CTA
+       ============================================================ -->
+  <section id="cta">
+    <div class="cta-inner">
+      <p class="eyebrow reveal" style="color: var(--teal);">Source Code</p>
+      <h2 class="heading-lg cta-title reveal reveal-d1">Explore the Full System</h2>
+      <p class="cta-desc reveal reveal-d2">
+        Complete codebase: data generation, feature engineering, model training, API serving, monitoring dashboard, and
+        Docker deployment. MIT licensed.
+      </p>
+      <div class="cta-actions reveal reveal-d3">
+        <a href="https://github.com/ShyamNayak27" class="btn btn-white-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+          </svg>
+          GitHub Repository
+        </a>
+        <a href="Documentation.pdf" target="_blank" class="btn btn-glass"
+          style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);">Technical
+          Documentation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-brand-name">ClearAudit</div>
+          <p class="footer-brand-desc">End-to-end ML fraud detection system. Synthetic data, dual-branch ensemble,
+            production API, SHAP explainability.</p>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">Pipeline</h4>
+          <nav class="footer-links">
+            <a href="#">SimPay VN Generator</a>
+            <a href="#">CTGAN / WGAN-GP</a>
+            <a href="#">DuckDB Features</a>
+            <a href="#">Model Training</a>
+          </nav>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">Models</h4>
+          <nav class="footer-links">
+            <a href="#">XGBoost Classifier</a>
+            <a href="#">Autoencoder</a>
+            <a href="#">Ensemble Logic</a>
+            <a href="#">SHAP Analysis</a>
+          </nav>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">Production</h4>
+          <nav class="footer-links">
+            <a href="#">FastAPI Endpoint</a>
+            <a href="#">Redis Cache Layer</a>
+            <a href="#">Docker Deployment</a>
+            <a href="#">Monitoring</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">ClearAudit. Built as an ML engineering portfolio project. MIT License. 2026.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <script src="js/pipeline-engine.js"></script>
+  <script src="js/scroll-experience.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>

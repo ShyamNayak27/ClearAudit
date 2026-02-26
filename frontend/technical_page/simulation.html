@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearAudit — Live Simulation Dashboard</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/simulation.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- TOP NAV -->
+    <header class="sim-nav">
+        <div class="sim-nav-brand">
+            ClearAudit <span>Simulation Engine</span>
+        </div>
+        <a href="index.html" class="sim-nav-back">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Back to Portfolio
+        </a>
+    </header>
+
+    <!-- LAYOUT -->
+    <div class="sim-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sim-sidebar">
+            <button class="sim-tab active" data-target="panel-scoring">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
+                Live Scoring
+            </button>
+            <button class="sim-tab" data-target="panel-performance">
+                <svg viewBox="0 0 24 24">
+                    <path d="M18 20V10M12 20V4M6 20v-6" />
+                </svg>
+                Model Performance
+            </button>
+            <button class="sim-tab" data-target="panel-analytics">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                    <polyline points="17 6 23 6 23 12" />
+                </svg>
+                Fraud Analytics
+            </button>
+            <button class="sim-tab" data-target="panel-status">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="3" />
+                    <path
+                        d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+                </svg>
+                System Status
+            </button>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="sim-main">
+
+            <!-- 1. LIVE SCORING -->
+            <section id="panel-scoring" class="sim-panel active">
+                <div class="panel-header">
+                    <h2 class="panel-title">Live Transaction Scoring</h2>
+                    <p class="panel-desc">Submit a raw transaction and get real-time FastApi fraud scoring with SHAP
+                        explanations.</p>
+                </div>
+
+                <div class="grid-2">
+                    <!-- Form -->
+                    <div class="dash-card">
+                        <div class="card-title">Transaction Details</div>
+
+                        <div class="form-group">
+                            <label class="form-label">Amount (VND)</label>
+                            <input type="number" id="inp-amount" class="form-control" value="12500000">
+                        </div>
+
+                        <div class="grid-2" style="margin-bottom:0; gap:1rem;">
+                            <div class="form-group">
+                                <label class="form-label">Sender CIF</label>
+                                <input type="text" id="inp-sender" class="form-control" value="VN_8422">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Receiver CIF</label>
+                                <input type="text" id="inp-recv" class="form-control" value="VN_9910">
+                            </div>
+                        </div>
+
+                        <div class="grid-2" style="margin-bottom:0; gap:1rem;">
+                            <div class="form-group">
+                                <label class="form-label">Receiver Bank</label>
+                                <select id="inp-bank" class="form-control">
+                                    <option>VCB</option>
+                                    <option>TCB</option>
+                                    <option selected>BIDV</option>
+                                    <option>MBB</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Type</label>
+                                <select id="inp-type" class="form-control">
+                                    <option selected>P2P_TRANSFER</option>
+                                    <option>E_COMMERCE</option>
+                                    <option>QR_PAYMENT</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button id="btn-score" class="btn btn-teal btn-block">Score Transaction</button>
+                        <button id="btn-random" class="btn btn-outline btn-block" style="margin-top:0.5rem;">Load Random
+                            Suspicious Tx</button>
+                    </div>
+
+                    <!-- Result -->
+                    <div class="dash-card result-card" style="opacity: 0.5; pointer-events: none;" id="scoring-result">
+                        <div class="card-title flex-between" style="display:flex; justify-content:space-between;">
+                            <span>Scoring Result</span>
+                            <span id="res-decision" class="badge badge-red">BLOCK</span>
+                        </div>
+
+                        <div class="grid-3">
+                            <div class="dash-metric">
+                                <div class="dash-metric-val" id="res-score">-</div>
+                                <div class="dash-metric-label">Ensemble Score</div>
+                                <div
+                                    style="font-size:0.55rem; color:rgba(10,10,10,0.4); margin-top:0.3rem; line-height:1.4;">
+                                    Final weighted fraud probability (0-1). >0.8 blocks.</div>
+                            </div>
+                            <div class="dash-metric">
+                                <div class="dash-metric-val" id="res-xgb">-</div>
+                                <div class="dash-metric-label">XGBoost Score</div>
+                                <div
+                                    style="font-size:0.55rem; color:rgba(10,10,10,0.4); margin-top:0.3rem; line-height:1.4;">
+                                    Probability of matching known patterns (supervised).</div>
+                            </div>
+                            <div class="dash-metric">
+                                <div class="dash-metric-val" id="res-ae">-</div>
+                                <div class="dash-metric-label">AE Anomaly</div>
+                                <div
+                                    style="font-size:0.55rem; color:rgba(10,10,10,0.4); margin-top:0.3rem; line-height:1.4;">
+                                    Reconstruction error capturing novel zero-day attacks.</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:2rem;">
+                            <div class="card-title">Diagnostic Signals (DuckDB)</div>
+                            <div class="diag-grid">
+                                <div class="diag-item">
+                                    <div class="diag-val" id="d-1h">14</div>
+                                    <div class="diag-lbl">1h Tx Count</div>
+                                </div>
+                                <div class="diag-item">
+                                    <div class="diag-val" id="d-24h">42</div>
+                                    <div class="diag-lbl">24h Tx Count</div>
+                                </div>
+                                <div class="diag-item">
+                                    <div class="diag-val" id="d-rx">8</div>
+                                    <div class="diag-lbl">24h Receivers</div>
+                                </div>
+                                <div class="diag-item">
+                                    <div class="diag-val" id="d-dv">3</div>
+                                    <div class="diag-lbl">24h Devices</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:2rem;">
+                            <div class="card-title">Top Feature Contributions (SHAP)</div>
+                            <div class="shap-list" id="shap-list">
+                                <!-- Injected via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. MODEL PERFORMANCE -->
+            <section id="panel-performance" class="sim-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Model Comparison</h2>
+                    <p class="panel-desc">Validation performance (20% holdout). Champion selected on PR-AUC.</p>
+                </div>
+
+                <div class="grid-4">
+                    <div class="dash-card">
+                        <div class="card-title" style="color:var(--teal)">Ensemble (Champion)</div>
+                        <div class="dash-metric-val">0.9107</div>
+                        <div class="dash-metric-label">F1-Score</div>
+                        <div style="margin-top:1rem;">
+                            <div class="dash-metric-val" style="font-size:1.2rem;">0.9654</div>
+                            <div class="dash-metric-label">PR-AUC</div>
+                        </div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="card-title">XGBoost Only</div>
+                        <div class="dash-metric-val">0.9084</div>
+                        <div class="dash-metric-label">F1-Score</div>
+                        <div style="margin-top:1rem;">
+                            <div class="dash-metric-val" style="font-size:1.2rem;">0.9699</div>
+                            <div class="dash-metric-label">PR-AUC</div>
+                        </div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="card-title">Random Forest</div>
+                        <div class="dash-metric-val">0.8612</div>
+                        <div class="dash-metric-label">F1-Score</div>
+                        <div style="margin-top:1rem;">
+                            <div class="dash-metric-val" style="font-size:1.2rem;">0.9415</div>
+                            <div class="dash-metric-label">PR-AUC</div>
+                        </div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="card-title">Autoencoder Only</div>
+                        <div class="dash-metric-val">0.1692</div>
+                        <div class="dash-metric-label">F1-Score</div>
+                        <div style="margin-top:1rem;">
+                            <div class="dash-metric-val" style="font-size:1.2rem;">0.3645</div>
+                            <div class="dash-metric-label">PR-AUC</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <div class="card-title">F1 vs Precision vs Recall Comparison</div>
+                    <div class="chart-container">
+                        <canvas id="chart-models"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. FRAUD ANALYTICS -->
+            <section id="panel-analytics" class="sim-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Fraud Analytics</h2>
+                    <p class="panel-desc">Dataset composition across 550,000 synthetic transactions.</p>
+                </div>
+
+                <div class="analytics-grid">
+                    <!-- Column 1: Metrics Stack -->
+                    <div class="metrics-stack">
+                        <div class="dash-card metrics-summary-card">
+                            <div class="dash-metric-val">550,000</div>
+                            <div class="dash-metric-label">Total Transactions</div>
+                        </div>
+                        <div class="dash-card">
+                            <div class="dash-metric-val">110,000</div>
+                            <div class="dash-metric-label">Holdout Test Txs</div>
+                        </div>
+                        <div class="dash-card">
+                            <div class="dash-metric-val">28,447</div>
+                            <div class="dash-metric-label">Fraud Cases</div>
+                        </div>
+                        <div class="dash-card">
+                            <div class="dash-metric-val">25.86%</div>
+                            <div class="dash-metric-label">Fraud Rate (Test Set)</div>
+                        </div>
+                        <div class="dash-card">
+                            <div class="dash-metric-val">4</div>
+                            <div class="dash-metric-label">Primary Typologies</div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Typology Breakdown -->
+                    <div class="dash-card">
+                        <div class="card-title">Typology Breakdown</div>
+                        <div class="chart-container">
+                            <canvas id="chart-pie"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Hourly Pattern -->
+                    <div class="dash-card">
+                        <div class="card-title">Hourly Pattern (Fraud vs Legitimate)</div>
+                        <div class="chart-container">
+                            <canvas id="chart-hour"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. SYSTEM STATUS -->
+            <section id="panel-status" class="sim-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">API & Fleet Health</h2>
+                    <p class="panel-desc">Live production indicators for FastAPI scoring logic.</p>
+                </div>
+
+                <div class="grid-3">
+                    <div class="dash-card">
+                        <div class="dash-metric-val" style="color:#00c853;">HEALTHY</div>
+                        <div class="dash-metric-label">FastAPI Endpoint</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-metric-val" style="color:#00c853;">CONNECTED</div>
+                        <div class="dash-metric-label">Redis Feature Cache</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-metric-val" style="color:#00c853;">LOADED</div>
+                        <div class="dash-metric-label">Ensemble Models</div>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <div class="card-title">Production Architecture</div>
+                    <pre
+                        style="font-family:var(--font-mono); font-size:0.8rem; color:var(--obsidian); line-height:1.8; overflow-x:auto;">
+Transaction → FastAPI Endpoint (/score)
+                  │
+                  ├── Redis Store (sender history, TTL=7d)
+                  │
+                  ├── Feature Service (DuckDB, 200+ features computed in ~3ms)
+                  │       ├── Velocity (14): tx counts, sums, rolling limits
+                  │       ├── Temporal (9): hour, cyclical, Tết, time-since-last
+                  │       └── Graph (5): pair count, degrees, bank diversity
+                  │
+                  ├── XGBoost (champion, 80% weight)
+                  ├── Autoencoder (anomaly detector, 20% weight)
+                  │
+                  ├── SHAP TreeExplainer (top-5 contributions for explainability)
+                  │
+                  └── JSON Response: score + decision + explanations (12ms p95)
+          </pre>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="js/simulation.js"></script>
+</body>
+
+</html>

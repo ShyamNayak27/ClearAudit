@@ -1,0 +1,15 @@
+﻿=== HEALTH CHECK ===
+{
+  "status": "healthy",
+  "models_loaded": true,
+  "redis_connected": false,
+  "xgboost_pr_auc": 0.9699,
+  "ensemble_f1": 0.9107
+}
+
+=== LEGITIMATE TRANSACTION ===
+  Decision: approve  Score: 0.2453  XGB: 0.0566  AE: 105.042107
+    transaction_type           -2.1522  (legit: normal transaction channel)
+    tx_count_1h                +1.8401  (fraud: high transaction velocity in the last hour)
+    is_biometric_verified      -1.3859  (legit: biometric verification passed)
+    amount_vnd                 -1.1334  (legit: normal transaction amount)

@@ -1,0 +1,20 @@
+# Environments
+venv/
+.env
+
+# Data
+data/
+*.csv
+*.parquet
+
+# Models
+*.pkl
+*.h5
+*.joblib
+src/models/saved_models/
+
+# Python
+__pycache__/
+*.py
+*$py.class
+.ipynb_checkpoints/

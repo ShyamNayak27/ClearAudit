@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClearAudit VN — Fraud Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&family=Archivo+Narrow:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <link rel="stylesheet" href="css/index.css" />
+</head>
+
+<body>
+
+    <!-- CURSOR -->
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- CANVAS -->
+    <canvas id="particle-canvas"></canvas>
+    <div id="noise"></div>
+
+    <!-- FLASH OVERLAY -->
+    <div id="flash-overlay"></div>
+
+    <!-- SCROLL CONTAINER -->
+    <div class="scroll-container">
+
+        <!-- ZONE 1: HERO -->
+        <section id="zone-hero">
+            <h1 class="hero-wordmark" id="wordmark">
+                Clear<span class="wordmark-accent">Audit</span><br>Vietnam
+            </h1>
+            <p class="hero-tagline" id="tagline">
+                Real-time fraud intelligence for Vietnam's financial ecosystem
+            </p>
+            <div class="scroll-hint" id="scroll-hint">
+                Scroll to explore
+                <div class="scroll-hint-line"></div>
+            </div>
+        </section>
+
+        <!-- ZONE 2: SPLIT -->
+        <section id="zone-split">
+            <div class="split-layout" id="split-layout">
+
+                <!-- BUSINESS CARD (LEFT) -->
+                <a class="path-card business" id="card-business" href="http://127.0.0.1:8083">
+                    <div class="card-eyebrow">
+                        <span class="dot"></span>
+                        For institutions
+                    </div>
+                    <h2 class="card-title">Protect your institution</h2>
+                    <p class="card-body">
+                        99.7% detection across four Vietnam-specific fraud typologies. Under 150ms per transaction.
+                        Explainable decisions that satisfy SBV regulatory requirements.
+                    </p>
+                    <span class="card-cta">
+                        See the product
+                        <svg class="cta-arrow" width="14" height="10" viewBox="0 0 14 10" fill="none">
+                            <path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </a>
+
+                <!-- CENTER NODE -->
+                <div class="center-node" id="center-node">
+                    <div class="node-glyph">
+                        <div class="node-pulse"></div>
+                        <div class="node-pulse"></div>
+                        <div class="node-pulse"></div>
+                        <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="36,4 58,14 68,36 58,58 36,68 14,58 4,36 14,14" stroke="rgba(0,196,204,0.7)"
+                                stroke-width="1" fill="rgba(0,196,204,0.05)" />
+                            <polygon points="36,14 52,21 59,36 52,51 36,58 20,51 13,36 20,21"
+                                stroke="rgba(0,196,204,0.25)" stroke-width="0.7" fill="none" />
+                            <polygon points="36,24 46,36 36,48 26,36" stroke="rgba(0,196,204,0.9)" stroke-width="1"
+                                fill="rgba(0,196,204,0.12)" />
+                            <circle cx="36" cy="36" r="3" fill="#00c4cc" />
+                            <circle cx="36" cy="4" r="1.5" fill="rgba(0,196,204,0.6)" />
+                            <circle cx="58" cy="14" r="1.5" fill="rgba(0,196,204,0.4)" />
+                            <circle cx="68" cy="36" r="1.5" fill="rgba(0,196,204,0.6)" />
+                            <circle cx="58" cy="58" r="1.5" fill="rgba(0,196,204,0.4)" />
+                            <circle cx="36" cy="68" r="1.5" fill="rgba(0,196,204,0.6)" />
+                            <circle cx="14" cy="58" r="1.5" fill="rgba(0,196,204,0.4)" />
+                            <circle cx="4" cy="36" r="1.5" fill="rgba(0,196,204,0.6)" />
+                            <circle cx="14" cy="14" r="1.5" fill="rgba(0,196,204,0.4)" />
+                        </svg>
+                    </div>
+                    <div class="metric-pills" id="metric-pills">
+                        <div class="metric-pill" style="animation-delay:0s"><span>99.7%</span> Detection Recall</div>
+                        <div class="metric-pill" style="animation-delay:0.12s"><span>&lt;150ms</span> Latency</div>
+                        <div class="metric-pill" style="animation-delay:0.24s"><span>4</span> Fraud Typologies</div>
+                    </div>
+                </div>
+
+                <!-- ENGINEERING CARD (RIGHT) -->
+                <a class="path-card engineering" id="card-engineering" href="http://127.0.0.1:8082">
+                    <div class="card-eyebrow">
+                        <span class="dot"></span>
+                        For engineers &amp; recruiters
+                    </div>
+                    <h2 class="card-title">See how it was built</h2>
+                    <p class="card-body">
+                        End-to-end ML system: CTGAN augmentation, DuckDB feature engineering, XGBoost + Autoencoder
+                        ensemble, FastAPI production API with Redis and SHAP explanations.
+                    </p>
+                    <span class="card-cta">
+                        Explore the architecture
+                        <svg class="cta-arrow" width="14" height="10" viewBox="0 0 14 10" fill="none">
+                            <path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- ZONE 3/4: MERGE -->
+        <section id="zone-merge">
+            <p class="merge-label" id="merge-label">Both paths. One engineer.</p>
+        </section>
+
+        <!-- ZONE 5: CREATOR -->
+        <section id="zone-creator">
+            <p class="creator-eyebrow" id="creator-eyebrow">The engineer behind ClearAudit VN</p>
+            <h2 class="creator-name" id="creator-name">Shyam Narayan Nayak</h2>
+            <p class="creator-bio" id="creator-bio">
+                Machine Learning Systems & Backend Infrastructure Engineer focused on building scalable,
+                production-grade AI pipelines for real-world impact. ClearAudit VN is a fully deployable system — not a
+                research prototype.
+            </p>
+            <div class="creator-availability" id="creator-availability">
+                Open to <span>ML Engineering</span> and <span>Backend Engineering</span> roles — and direct deployment
+                partnerships
+            </div>
+            <div class="creator-links" id="creator-links">
+                <a class="creator-link" href="https://github.com/ShyamNayak27" target="_blank">GitHub</a>
+                <a class="creator-link" href="https://www.linkedin.com/in/shyamnnayak/" target="_blank">LinkedIn</a>
+                <a class="creator-link" href="mailto:shtrillion@gmail.com">Contact</a>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

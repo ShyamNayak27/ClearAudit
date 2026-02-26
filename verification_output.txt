@@ -1,0 +1,58 @@
+﻿============================================================
+STEP 2.1 VERIFICATION: Data Preparation
+============================================================
+X_train shape:   (489315, 32)
+X_test shape:    (100000, 32)
+y_train fraud:   163,105 / 489,315 (33.33%)
+y_test fraud:    18,447 / 100,000 (18.45%)
+Feature count:   32
+Features:        ['amount_vnd', 'receiver_bank_code', 'transaction_type', 'is_biometric_verified', 'tx_count_1h', 'tx_count_6h', 'tx_count_24h', 'tx_count_7d', 'tx_sum_1h', 'tx_sum_6h', 'tx_sum_24h', 'tx_sum_7d', 'tx_avg_1h', 'tx_avg_24h', 'tx_max_24h', 'amt_zscore_24h', 'unique_receivers_24h', 'unique_devices_24h', 'hour', 'day_of_week', 'is_weekend', 'is_night', 'is_tet_period', 'days_to_tet', 'time_since_last_tx', 'hour_sin', 'hour_cos', 'sender_out_degree', 'receiver_in_degree', 'sender_bank_diversity', 'pair_tx_count', 'is_repeat_pair']
+Label Encoders:  ['receiver_bank_code', 'transaction_type']
+Null check:      0 nulls in train, 0 nulls in test
+Test fraud types:
+fraud_type
+none                 89222
+fake_shipper          4456
+biometric_evasion     3612
+quishing              2710
+
+============================================================
+STEP 2.2 VERIFICATION: Supervised Models
+============================================================
+
+--- XGBoost ---
+PR-AUC: 0.8900
+F1:     0.7855
+              precision    recall  f1-score   support
+
+       Legit       0.96      0.94      0.95     81553
+       Fraud       0.75      0.83      0.79     18447
+
+    accuracy                           0.92    100000
+   macro avg       0.85      0.88      0.87    100000
+weighted avg       0.92      0.92      0.92    100000
+
+--- Random Forest ---
+PR-AUC: 0.8552
+F1:     0.7514
+              precision    recall  f1-score   support
+
+       Legit       0.93      0.97      0.95     81553
+       Fraud       0.85      0.67      0.75     18447
+
+    accuracy                           0.92    100000
+   macro avg       0.89      0.82      0.85    100000
+weighted avg       0.91      0.92      0.91    100000
+
+Champion model (from saved metrics): xgboost
+
+XGBoost Top 5 Most Important Features:
+  1. pair_tx_count: 0.3662
+  2. unique_devices_24h: 0.1612
+  3. is_tet_period: 0.1253
+  4. is_biometric_verified: 0.0931
+  5. transaction_type: 0.0699
+
+============================================================
+ALL VERIFICATIONS PASSED
+============================================================

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearAudit - Simulation Dashboard</title>
+
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/simulation.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <nav class="sim-nav">
+        <div class="sim-nav-brand">
+            ClearAudit <span>System Dashboard</span>
+        </div>
+        <a href="index.html" class="sim-nav-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            BACK TO PRODUCT
+        </a>
+    </nav>
+
+    <div class="sim-layout">
+
+        <aside class="sim-sidebar">
+            <button class="sim-tab active" data-target="panel-scoring">
+                <svg viewBox="0 0 24 24">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                </svg>
+                Live API Scoring
+            </button>
+            <button class="sim-tab" data-target="panel-performance">
+                <svg viewBox="0 0 24 24">
+                    <path d="M18 20V10M12 20V4M6 20v-6" />
+                </svg>
+                Model Performance
+            </button>
+            <button class="sim-tab" data-target="panel-analytics">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83M22 12A10 10 0 0 0 12 2v10z" />
+                </svg>
+                Fraud Analytics
+            </button>
+            <button class="sim-tab" data-target="panel-system">
+                <svg viewBox="0 0 24 24">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                    <line x1="8" y1="21" x2="16" y2="21" />
+                    <line x1="12" y1="17" x2="12" y2="21" />
+                </svg>
+                System Status
+            </button>
+        </aside>
+
+        <main class="sim-main">
+
+            <!-- PANEL: LIVE SCORING -->
+            <section id="panel-scoring" class="sim-panel active">
+                <div class="panel-header">
+                    <h1 class="panel-title">Live API Scoring</h1>
+                    <p class="panel-desc">Evaluate transactions in real-time. This dashboard connects directly to the
+                        production FastAPI instance, triggering the dual-branch Ensemble model (XGBoost + Autoencoder)
+                        to generate standard SBV-compliant SHAP explanations.</p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="dash-card">
+                        <div class="card-title">Transaction Parameters</div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Sender CIF (Account ID)</label>
+                                <input type="text" id="inp-sender" class="form-control" value="VN_8374">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Receiver CIF / Merchant</label>
+                                <input type="text" id="inp-recv" class="form-control" value="VN_1049">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Transfer Amount (VND)</label>
+                            <input type="number" id="inp-amount" class="form-control" value="25000000">
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Receiver Bank</label>
+                                <select id="inp-bank" class="form-control">
+                                    <option value="VCB">Vietcombank (VCB)</option>
+                                    <option value="TCB">Techcombank (TCB)</option>
+                                    <option value="BIDV">BIDV</option>
+                                    <option value="MBB">MB Bank</option>
+                                    <option value="MOMO">MoMo E-Wallet</option>
+                                    <option value="ZALO">ZaloPay</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Transaction Type</label>
+                                <select id="inp-type" class="form-control">
+                                    <option value="P2P_TRANSFER">P2P Transfer</option>
+                                    <option value="QR_PAYMENT">QR Payment</option>
+                                    <option value="BILL_PAYMENT">Bill Payment</option>
+                                    <option value="E_COMMERCE">E-Commerce</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Location (Geohash prefix)</label>
+                                <input type="text" id="inp-geo" class="form-control" value="w3">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Biometric Verified (>&gt;10M VND)</label>
+                                <select id="inp-bio" class="form-control">
+                                    <option value="true">True (Verified)</option>
+                                    <option value="false" selected>False (Bypassed/Missing)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1.5rem;">
+                            <button id="btn-score" class="btn btn-primary btn-block" style="padding:14px;">EVALUATE
+                                TRANSACTION (LIVE API)</button>
+                            <button id="btn-random" class="btn btn-secondary btn-block" style="padding:14px;">LOAD
+                                RANDOM SUSPICIOUS TX</button>
+                        </div>
+                    </div>
+
+                    <div class="dash-card" id="result-card" style="opacity: 0.5;">
+                        <div class="card-title">Ensemble Decision Output</div>
+
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                            <div>
+                                <div id="res-score" class="dash-metric-val">--</div>
+                                <div class="dash-metric-label">Fraud Probability</div>
+                            </div>
+                            <div id="res-decision" class="badge badge-grey">WAITING FOR INPUT</div>
+                        </div>
+
+                        <div class="grid-3" style="margin-bottom: 2rem;">
+                            <div class="dash-metric">
+                                <div id="res-xgboost" class="dash-metric-val" style="font-size: 1.8rem;">--</div>
+                                <div class="dash-metric-label">XGBoost Score</div>
+                            </div>
+                            <div class="dash-metric">
+                                <div id="res-ae" class="dash-metric-val" style="font-size: 1.8rem;">--</div>
+                                <div class="dash-metric-label">AE Anomaly</div>
+                            </div>
+                            <div class="dash-metric">
+                                <div id="res-latency" class="dash-metric-val" style="font-size: 1.8rem;">--</div>
+                                <div class="dash-metric-label">API Latency</div>
+                            </div>
+                        </div>
+
+                        <div class="card-title" style="margin-bottom: 1rem;">Explainability (SHAP Top Features)</div>
+                        <div id="shap-list" class="shap-list" style="margin-bottom: 2rem;">
+                            <!-- Injected SHAP bars -->
+                            <div style="color:var(--text-secondary); font-family:var(--font-mono); font-size:0.8rem;">
+                                Run transaction to generate SHAP report.</div>
+                        </div>
+
+                        <div class="card-title" style="margin-bottom: 1rem;">System Diagnostics</div>
+                        <div class="diag-grid">
+                            <div class="diag-item">
+                                <div id="diag-tx1h" class="diag-val">-</div>
+                                <div class="diag-lbl">SND TX (1H)</div>
+                            </div>
+                            <div class="diag-item">
+                                <div id="diag-rcv24h" class="diag-val">-</div>
+                                <div class="diag-lbl">DIST RCV (24H)</div>
+                            </div>
+                            <div class="diag-item">
+                                <div id="diag-pair" class="diag-val">-</div>
+                                <div class="diag-lbl">PAIR HIST</div>
+                            </div>
+                            <div class="diag-item">
+                                <div id="diag-bio" class="diag-val">-</div>
+                                <div class="diag-lbl">BIO REQ</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- PANEL: MODEL PERFORMANCE -->
+            <section id="panel-performance" class="sim-panel">
+                <div class="panel-header">
+                    <h1 class="panel-title">Model Performance</h1>
+                    <p class="panel-desc">Metrics based on the hold-out test set evaluation (`metrics_report.json`). The
+                        Champion Ensemble uses XGBoost for supervised pattern recognition and an Autoencoder for
+                        unsupervised anomaly detection.</p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="dash-card">
+                        <div class="card-title">Precision-Recall Benchmark</div>
+                        <div class="chart-container">
+                            <canvas id="chart-pr"></canvas>
+                        </div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="card-title">Ensemble Evaluation Set</div>
+                        <div class="grid-2">
+                            <div class="dash-metric"
+                                style="background:var(--content-bg); border:1px solid var(--border-light);">
+                                <div class="dash-metric-val">110,000</div>
+                                <div class="dash-metric-label">Test Set Transactions</div>
+                            </div>
+                            <div class="dash-metric" style="background:var(--bg-blush); border:1px solid #fed7d7;">
+                                <div class="dash-metric-val" style="color:var(--threat-red);">28,447</div>
+                                <div class="dash-metric-label">Fraud Cases Observed</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:2rem;">
+                            <div
+                                style="margin-bottom:1rem; font-family:var(--font-mono); font-size:0.85rem; color:var(--text-secondary);">
+                                CHAMPION: ENSEMBLE (XGB + AE)</div>
+                            <div
+                                style="display:flex; justify-content:space-between; margin-bottom:0.5rem; font-family:var(--font-mono); font-size:0.9rem;">
+                                <span>Precision</span>
+                                <span style="color:var(--metric-navy); font-weight:bold;">90.36%</span>
+                            </div>
+                            <div
+                                style="background:var(--border-light); height:6px; border-radius:3px; margin-bottom:1rem;">
+                                <div style="background:var(--safe-teal); width:90.36%; height:100%; border-radius:3px;">
+                                </div>
+                            </div>
+
+                            <div
+                                style="display:flex; justify-content:space-between; margin-bottom:0.5rem; font-family:var(--font-mono); font-size:0.9rem;">
+                                <span>Recall</span>
+                                <span style="color:var(--metric-navy); font-weight:bold;">91.80%</span>
+                            </div>
+                            <div
+                                style="background:var(--border-light); height:6px; border-radius:3px; margin-bottom:1rem;">
+                                <div style="background:var(--safe-teal); width:91.80%; height:100%; border-radius:3px;">
+                                </div>
+                            </div>
+
+                            <div
+                                style="display:flex; justify-content:space-between; margin-bottom:0.5rem; font-family:var(--font-mono); font-size:0.9rem;">
+                                <span>F1-Score</span>
+                                <span style="color:var(--metric-navy); font-weight:bold;">91.07%</span>
+                            </div>
+                            <div style="background:var(--border-light); height:6px; border-radius:3px;">
+                                <div style="background:var(--safe-teal); width:91.07%; height:100%; border-radius:3px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PANEL: FRAUD ANALYTICS -->
+            <section id="panel-analytics" class="sim-panel">
+                <div class="panel-header">
+                    <h1 class="panel-title">Typology Analytics</h1>
+                    <p class="panel-desc">Visual breakdown of blocked transactions categorized by Vietnamese fraud
+                        typologies.</p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="dash-card">
+                        <div class="card-title">Typology Breakdown</div>
+                        <div class="chart-container">
+                            <canvas id="chart-pie"></canvas>
+                        </div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="card-title">Incident Velocity (7 days)</div>
+                        <div class="chart-container">
+                            <canvas id="chart-hourly"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PANEL: SYSTEM STATUS -->
+            <section id="panel-system" class="sim-panel">
+                <div class="panel-header">
+                    <h1 class="panel-title">System Status</h1>
+                    <p class="panel-desc">Live production indicators. Health checks ping the `/health` and `/monitoring`
+                        endpoints of the FastAPI instance.</p>
+                </div>
+
+                <div class="grid-3">
+                    <div class="dash-card">
+                        <div class="card-title">API Gateway</div>
+                        <div
+                            style="display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:1.5rem; color:var(--safe-teal);">
+                            <div style="width:12px; height:12px; background:var(--safe-teal); border-radius:50%;"></div>
+                            HEALTHY (1.0)
+                        </div>
+                        <div
+                            style="margin-top:1rem; font-family:var(--font-mono); font-size:0.8rem; color:var(--text-secondary);">
+                            Endpoint: http://127.0.0.1:8000</div>
+                    </div>
+
+                    <div class="dash-card">
+                        <div class="card-title">XGBoost (Supervised)</div>
+                        <div
+                            style="display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:1.5rem; color:var(--safe-teal);">
+                            <div style="width:12px; height:12px; background:var(--safe-teal); border-radius:50%;"></div>
+                            LOADED (v2.4)
+                        </div>
+                        <div
+                            style="margin-top:1rem; font-family:var(--font-mono); font-size:0.8rem; color:var(--text-secondary);">
+                            Features: 32</div>
+                    </div>
+
+                    <div class="dash-card">
+                        <div class="card-title">Autoencoder (Unsupervised)</div>
+                        <div
+                            style="display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:1.5rem; color:#d69e2e;">
+                            <div style="width:12px; height:12px; background:#d69e2e; border-radius:50%;"></div>
+                            MOCKED (NO TF)
+                        </div>
+                        <div
+                            style="margin-top:1rem; font-family:var(--font-mono); font-size:0.8rem; color:var(--text-secondary);">
+                            Fallback Mode Active</div>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <div class="card-title">Redis Feature Store</div>
+                    <div
+                        style="color:var(--text-secondary); font-family:var(--font-body); font-size:1rem; max-width:800px;">
+                        Redis is correctly caching intermediate aggregation profiles (like 1h velocities and pair
+                        counts). This ensures the 150ms latency target is met under high load scenarios such as Tết
+                        holiday rushes.
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="js/simulation.js"></script>
+</body>
+
+</html>
