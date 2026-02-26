@@ -184,24 +184,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Construct payload matching backend TransactionRequest schema
             const payload = {
-                transaction_id: "tx_" + Date.now(),
-                sender_id: inpSender.value || "anonymous",
-                receiver_id: inpRecv.value || "anonymous",
-                amount: parseFloat(inpAmount.value) || 0,
-                timestamp: new Date().toISOString(),
-                bank_routing: inpBank.value,
+                amount_vnd: parseFloat(inpAmount.value) || 0,
+                sender_cif: inpSender.value || "anonymous",
+                receiver_cif: inpRecv.value || "anonymous",
+                receiver_bank_code: inpBank.value,
                 transaction_type: inpType.value,
                 is_biometric_verified: inpBio.value === 'true',
-                device_id: "dev_" + Math.floor(Math.random() * 1000),
-                ip_address: "192.168.1." + Math.floor(Math.random() * 255),
-                geohash: inpGeo.value
+                device_mac_hash: "dev_" + Math.floor(Math.random() * 1000000).toString(16),
+                timestamp: new Date().toISOString().slice(0, 19).replace('T', ' ')
             };
 
             const startTime = performance.now();
 
             try {
                 // Real fastAPI call
-                const res = await fetch('../api/score', {
+                const res = await fetch('/api/score', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -279,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             } catch (err) {
                 console.error("Scoring failed:", err);
-                alert("Failed to connect to API. Is `uvicorn src.api.app:app` running on 127.0.0.1:8000?");
+                alert("Failed to connect to API. Please check server status.");
             } finally {
                 btnScore.innerText = 'EVALUATE TRANSACTION (LIVE API)';
                 btnScore.disabled = false;

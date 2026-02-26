@@ -55,13 +55,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnScore.addEventListener('click', async () => {
         const payload = {
-            amount_vnd: parseFloat(inpAmount.value),
-            sender_cif: inpSender.value,
-            receiver_cif: inpRecv.value,
+            amount_vnd: parseFloat(inpAmount.value) || 0,
+            sender_cif: inpSender.value || "VN_0000",
+            receiver_cif: inpRecv.value || "VN_9999",
             receiver_bank_code: inpBank.value,
             transaction_type: inpType.value,
             is_biometric_verified: false,
-            device_mac_hash: "web_device",
+            device_mac_hash: "web_device_demo",
             timestamp: new Date().toISOString().slice(0, 19).replace('T', ' ')
         };
 
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultCard.style.opacity = '0.5';
 
         try {
-            const res = await fetch('../api/score', {
+            const res = await fetch('/api/score', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             resScore.textContent = '-';
             resXgb.textContent = '-';
             resAe.textContent = '-';
-            shapList.innerHTML = '<div class="shap-item"><div class="shap-val" style="color:#e5141f;">Failed to reach backend at port 8000.</div></div>';
+            shapList.innerHTML = '<div class="shap-item"><div class="shap-val" style="color:#e5141f;">Failed to reach backend API.</div></div>';
         }
 
         resultCard.style.opacity = '1';
