@@ -75,7 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
-            if (!res.ok) throw new Error('API Error');
+            if (!res.ok) {
+                const errText = await res.text();
+                throw new Error(`API Error ${res.status}: ${errText.slice(0, 100)}`);
+            }
             const data = await res.json();
 
             resScore.textContent = data.fraud_score.toFixed(4);
@@ -108,8 +111,10 @@ document.addEventListener('DOMContentLoaded', () => {
             resScore.textContent = '-';
             resXgb.textContent = '-';
             resAe.textContent = '-';
-            const statusMsg = e.message || 'Unknown Error';
-            shapList.innerHTML = `<div class="shap-item"><div class="shap-val" style="color:#e5141f;">API Error: ${statusMsg}</div></div>`;
+
+            // Try to get a more specific error message from the response if available
+            let statusInfo = e.message || 'Unknown Error';
+            shapList.innerHTML = `<div class="shap-item"><div class="shap-val" style="color:#e5141f;">${statusInfo}</div></div>`;
         }
 
         resultCard.style.opacity = '1';

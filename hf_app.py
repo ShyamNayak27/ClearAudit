@@ -1,5 +1,6 @@
 import os
 import logging
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, RedirectResponse
@@ -12,8 +13,17 @@ logger = logging.getLogger("hf_unified_server")
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
+# ─── Lifespan ────────────────────────────────────────────────────────────
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("=" * 60)
+    logger.info("  Unified Server Starting...")
+    logger.info("=" * 60)
+    yield
+    logger.info("Unified Server Shutting Down.")
+
 # ─── Main HF Application ──────────────────────────────────────────────────
-app = FastAPI(title="ClearAudit Unified Server")
+app = FastAPI(title="ClearAudit Unified Server", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
