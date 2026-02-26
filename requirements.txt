@@ -33,3 +33,4 @@ seaborn>=0.13.0
 # Utilities
 python-dotenv>=1.0.0
 pytest>=7.4.0
+redis>=5.0.0
