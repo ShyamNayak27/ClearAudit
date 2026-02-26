@@ -5,7 +5,7 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
-from src.api.app import app as api_app
+from src.api.app import app as api_app, model_service
 
 # ─── Configuration ────────────────────────────────────────────────────────
 logging.basicConfig(level=logging.INFO)
@@ -17,8 +17,16 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("=" * 60)
-    logger.info("  Unified Server Starting...")
+    logger.info("  ClearAudit Unified Server — Starting")
     logger.info("=" * 60)
+    
+    # Explicitly load models because mounted sub-app lifespans aren't triggered
+    try:
+        model_service.load_models()
+        logger.info("Models loaded successfully in Unified Server")
+    except Exception as e:
+        logger.error("CRITICAL: Failed to load models: %s", e)
+
     yield
     logger.info("Unified Server Shutting Down.")
 
